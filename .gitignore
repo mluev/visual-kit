@@ -1,9 +1,7 @@
-node_modules
-dist
 .DS_Store
-*.tsbuildinfo
-
-# learner activity and AI feedback (personal, local)
-results/
-reviews/
-public/uploads/
+# local-only
+.claude/settings.local.json
+.claude/skills_eval_outputs/
+.eval-visual-board/
+app/.claude/skills/visual-board-workspace/
+visual-board/
