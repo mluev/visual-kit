@@ -5,3 +5,5 @@
 .eval-visual-board/
 app/.claude/skills/visual-board-workspace/
 visual-board/
+dist/
+*.tgz
