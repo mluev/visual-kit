@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plan: launch a small website</title>
+<link rel="stylesheet" href="../visual-kit.css">
+<script src="../visual-kit.js"></script>
+</head>
+<body>
+<script class="vk" type="application/json">
+[
+  { "type": "callout", "kind": "key", "title": "Goal",
+    "body": "A simple, live, five-page website for a small business, launched at the end of week four. **Done means:** it is live, loads well on a phone, the contact form has been tested, and one person outside the project has used it." },
+
+  { "type": "stats", "title": "The plan at a glance", "items": [
+      { "label": "Weeks", "value": 4 },
+      { "label": "Phases", "value": 4, "note": "Plan, build, content, launch" },
+      { "label": "Pages", "value": 5, "note": "Home, About, Services, Contact, FAQ" } ] },
+
+  { "type": "timeline", "title": "Week by week", "events": [
+      { "date": "Week 1", "title": "Plan", "body": "Decide the goal and audience, choose the five pages and sketch how they link." },
+      { "date": "Week 2", "title": "Build", "body": "Choose the tool, set up hosting and the domain, and build the home page and shared layout." },
+      { "date": "Week 3", "title": "Content", "body": "Write the text, gather photos, and build the remaining pages." },
+      { "date": "Week 4", "title": "Launch", "body": "Test on real phones, fix what you find, go live, then tell people." } ],
+    "caption": "Content is the usual bottleneck, so it gets a whole week to itself." },
+
+  { "type": "compare", "title": "Decision: how to build it", "columns": ["Website builder", "Template + hosting", "Custom code"], "rows": [
+      { "label": "Speed", "values": ["Fastest", "Fast", "Slowest"] },
+      { "label": "Control", "values": ["Limited", "Moderate", "Total"] },
+      { "label": "Skill needed", "values": ["Almost none", "Some", "A developer"] },
+      { "label": "Choose when", "values": ["You need it live quickly and the design is simple", "You want more control without building everything", "You have unusual needs or a developer on hand"] } ],
+    "caption": "For a five-page site with a four-week deadline, a builder or a template is almost always the sensible choice." },
+
+  { "type": "group", "columns": 2, "blocks": [
+    { "type": "checklist", "title": "Week 1: Plan", "items": ["Write the goal in one sentence", "List who the site is for", { "text": "Choose the five pages", "note": "Home, About, Services, Contact, FAQ" }, "Sketch how the pages link"] },
+    { "type": "checklist", "title": "Week 2: Build", "items": ["Choose the tool", "Register the domain", "Set up hosting", "Build the shared layout and home page"] },
+    { "type": "checklist", "title": "Week 3: Content", "items": ["Write the text for each page", "Collect and resize photos", "Build the other four pages", { "text": "Test the contact form", "note": "Send yourself a message and check it arrives" }] },
+    { "type": "checklist", "title": "Week 4: Launch", "items": ["Check every page on a phone", "Fix broken links and typos", "Ask one outsider to try it", "Go live and announce it"] } ] },
+
+  { "type": "cards", "title": "Risks and what to do about them", "items": [
+      { "tag": "Risk", "title": "Content arrives late", "body": "Start with short placeholder text so the layout is not blocked, and swap it in later." },
+      { "tag": "Risk", "title": "The scope keeps growing", "body": "Park every new idea on a “later” list. Nothing joins the plan after week 2." },
+      { "tag": "Risk", "title": "Problems found at the last minute", "body": "Test on a real phone in week 3, not on launch day." } ] }
+]
+</script>
+</body>
+</html>

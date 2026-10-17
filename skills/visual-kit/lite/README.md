@@ -15,6 +15,6 @@ That's it. Ask your AI for a visual explanation; it writes an HTML file; double-
 Lessons split across several `.js` files work by double-click too. Only `.json` section files need a local server (`python3 -m http.server`).
 
 ## Try it
-Open `examples/message.html` (a small message) or `examples/all-blocks.html` (every block). For the multi-section lesson, open `viewer.html?lesson=examples/lesson/lesson.js` (type that into the address bar after the file path).
+Open `examples/index.html`: an explanation, a lesson with practice, slides, a plan, a cheat sheet and a catalogue of every block.
 
 Answers are kept in your browser only. "Copy my answers" lets you paste them back to the AI for feedback.

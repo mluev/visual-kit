@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Git: everyday commands</title>
+<link rel="stylesheet" href="../visual-kit.css">
+<script src="../visual-kit.js"></script>
+</head>
+<body>
+<script class="vk" type="application/json">
+[
+  { "type": "callout", "kind": "key", "title": "The mental model",
+    "body": "Git stores **snapshots** of your project. Day to day you move changes through four places: your working folder, the staging area, your local history, and the shared remote." },
+
+  { "type": "flow", "title": "Where changes travel",
+    "steps": [
+      { "title": "Working folder", "body": "The files you edit.", "show": "edit files" },
+      { "title": "Staging area", "body": "Changes chosen for the next snapshot.", "show": "git add" },
+      { "title": "Local history", "body": "Saved snapshots (commits) on your machine.", "show": "git commit" },
+      { "title": "Remote", "body": "The shared copy, such as GitHub.", "show": "git push" } ],
+    "caption": "Each arrow is one command. Nothing leaves your machine until `git push`." },
+
+  { "type": "cards", "title": "Daily commands",
+    "items": [
+      { "tag": "Look", "title": "Check state", "body": "`git status` shows what changed. `git diff` shows exactly how." },
+      { "tag": "Look", "title": "Read history", "body": "`git log --oneline` lists commits, newest first." },
+      { "tag": "Save", "title": "Stage and commit", "body": "`git add -p` picks changes; `git commit -m \"message\"` saves them." },
+      { "tag": "Branch", "title": "Start work", "body": "`git switch -c my-branch` creates and moves to a new branch." },
+      { "tag": "Share", "title": "Publish", "body": "`git push -u origin my-branch` sends it up and tracks it." },
+      { "tag": "Update", "title": "Get others’ work", "body": "`git pull` fetches and merges the remote branch into yours." } ] },
+
+  { "type": "code", "title": "A typical change, start to finish",
+    "code": "git switch -c fix-login        # new branch\ngit add -p                     # choose what to stage\ngit commit -m \"Fix login redirect\"\ngit push -u origin fix-login   # then open a pull request" },
+
+  { "type": "compare", "title": "Undo, by situation", "columns": ["Command", "Effect"], "rows": [
+      { "label": "Unstage a file", "values": ["`git restore --staged <file>`", "Back to modified, edits kept"] },
+      { "label": "Throw away edits to a file", "values": ["`git restore <file>`", "Edits are lost"] },
+      { "label": "Fix the last commit message", "values": ["`git commit --amend`", "Rewrites the last commit"] },
+      { "label": "Undo a commit others may have", "values": ["`git revert <commit>`", "Adds a new commit that cancels it out"] } ] },
+
+  { "type": "compare", "title": "Merge or rebase?", "columns": ["Merge", "Rebase"], "rows": [
+      { "label": "What it does", "values": ["Joins two histories with a merge commit", "Replays your commits on top of the other branch"] },
+      { "label": "History looks", "values": ["Branchy, true to what happened", "Straight and tidy"] },
+      { "label": "Safe on shared branches", "values": ["Yes", "No: it rewrites commits"] } ],
+    "caption": "When unsure, merge. Rebase your own unpublished work if you want a clean history." },
+
+  { "type": "callout", "kind": "warning", "title": "One rule worth remembering",
+    "body": "Never force-push (`git push --force`) to a branch other people use. It overwrites their history." }
+]
+</script>
+</body>
+</html>

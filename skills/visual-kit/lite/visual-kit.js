@@ -59,8 +59,10 @@
     return el;
   }
   function norm(s) {
+    // lower-case, drop accents and punctuation (£ and % too), but keep the point in numbers: 1.5 is not 15
     return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
-      .replace(/[^a-z0-9Ѐ-ӿ\s]/g, '').replace(/\s+/g, ' ').trim();
+      .replace(/(\d)[.,](?=\d)/g, '$1\u0001').replace(/[^a-z0-9Ѐ-ӿ\s\u0001]/g, '')
+      .replace(/\s+/g, ' ').trim();
   }
   function lev(a, b) {
     var d = [], i, j;
@@ -138,6 +140,7 @@
       el = h('section', { class: 'vk-card vk-error' }, '⚠ block ' + i + (b && b.type ? ' (' + b.type + ')' : '') + ': ' + e.message);
     }
     if (b && b.span === 'full') el.classList.add('vk-full');
+    if (b && b.caption && el.classList.contains('vk-card')) el.appendChild(h('div', { class: 'vk-caption', html: inline(b.caption) }));
     return el;
   }
   VK.render = function (target, blocks, opts) {
@@ -181,7 +184,7 @@
   B.timeline = function (b) {
     var el = card(b, '');
     el.appendChild(h('div', { class: 'vk-timeline' }, (b.events || b.items).map(function (e) {
-      return h('details', {}, h('summary', {}, h('small', {}, e.date), e.title), e.body && h('div', { html: inline(e.body) }));
+      return h('details', { open: !b.collapse }, h('summary', {}, h('small', {}, e.date), e.title), e.body && h('div', { html: inline(e.body) }));
     })));
     return el;
   };
@@ -199,7 +202,7 @@
     function node(n, open) {
       if (!n.children || !n.children.length) return h('div', {}, n.label, n.note && h('span', { class: 'vk-muted' }, ' · ' + n.note));
       return h('details', { open: open }, h('summary', {}, n.label, n.note && h('span', { class: 'vk-muted' }, ' · ' + n.note)),
-        n.children.map(function (c) { return node(c, false); }));
+        n.children.map(function (c) { return node(c, !b.collapse); }));
     }
     var el = card(b, '');
     el.appendChild(node(b.root, true));
@@ -255,6 +258,35 @@
         return h('span', {}, h('i', { style: 'background:' + (se.color || colours[i % colours.length]) }), se.name);
       })));
     if (b.note) el.appendChild(h('div', { class: 'vk-muted' }, b.note));
+    return el;
+  };
+  /* flow / steps: numbered boxes joined by arrows, laid out by CSS (no coordinates to get wrong) */
+  function flowEl(b, dir) {
+    var steps = b.steps || b.items, row = dir === 'row' && steps.length <= 4;
+    var el = card(b, ''), wrap = h('div', { class: 'vk-flow ' + (row ? 'row' : 'col'), style: row ? '--n:' + steps.length : '' });
+    steps.forEach(function (st, i) {
+      wrap.appendChild(h('div', { class: 'vk-step' + (b.highlight === i ? ' hl' : '') },
+        h('span', { class: 'vk-num' }, String(i + 1)),
+        h('div', {}, h('h3', {}, st.title), st.show && h('code', { class: 'vk-show' }, st.show), st.body && h('div', { class: 'vk-text', html: md(st.body) }))));
+    });
+    el.appendChild(wrap);
+    if (b.loop) el.appendChild(h('div', { class: 'vk-loop', html: '↻ ' + inline(b.loop) }));
+    return el;
+  }
+  B.flow = function (b) { return flowEl(b, 'row'); };
+  B.steps = function (b) { return flowEl(b, 'col'); };
+  B.cards = function (b) {
+    var el = card(b, '');
+    el.appendChild(h('div', { class: 'vk-minis' + (b.columns ? ' fixed' : ''), style: b.columns ? '--cols:' + b.columns : '' }, b.items.map(function (it) {
+      return h('div', { class: 'vk-mini' }, it.tag && h('span', { class: 'vk-pill' }, it.tag), h('h3', {}, it.title), it.body && h('div', { class: 'vk-text', html: md(it.body) }));
+    })));
+    return el;
+  };
+  B.layers = function (b) {
+    var el = card(b, '');
+    el.appendChild(h('div', { class: 'vk-layers' }, b.items.map(function (it, i) {
+      return h('div', { class: 'vk-layer', style: '--i:' + i }, h('b', {}, it.title), h('span', { html: inline(it.body || '') }));
+    })));
     return el;
   };
   B.code = function (b) { var el = card(b, ''); el.appendChild(pre(b.code)); return el; };
@@ -514,6 +546,63 @@
         draw();
       }, 'primary', pick.some(function (p) { return p == null; })) : [h('span', { class: 'vk-score' }, score + ' / ' + b.items.length), btn('Try again', function () { pick = pick.map(function () { return null; }); checked = false; draw(); })]));
     }
+    draw();
+    return el;
+  };
+
+  /* checklist: ticks are remembered in the browser (a plan the user works through) */
+  B.checklist = function (b, ctx) {
+    var items = b.items.map(function (x) { return typeof x === 'string' ? { text: x } : x; });
+    var saved = store('vk:chk:' + ns) || {}, done = saved[ctx.id] || items.map(function (i) { return !!i.done; });
+    var el = card(b, 'Checklist'), body = h('div', {});
+    el.appendChild(body);
+    function draw() {
+      body.textContent = '';
+      var n = done.filter(Boolean).length;
+      body.appendChild(h('div', { class: 'vk-muted' }, n + ' / ' + items.length + ' done'));
+      body.appendChild(h('div', { class: 'vk-bar-top', style: 'margin:6px 0 10px' }, h('i', { style: 'width:' + Math.round(n / items.length * 100) + '%' })));
+      items.forEach(function (it, i) {
+        var cb = h('input', { type: 'checkbox' });
+        cb.checked = !!done[i];
+        cb.addEventListener('change', function () { done[i] = cb.checked; saved[ctx.id] = done; store('vk:chk:' + ns, saved); draw(); });
+        body.appendChild(h('label', { class: 'vk-check' + (done[i] ? ' done' : '') }, cb,
+          h('span', {}, h('span', { html: inline(it.text) }), it.note && h('small', { class: 'vk-muted' }, it.note))));
+      });
+    }
+    draw();
+    return el;
+  };
+
+  /* slides: a deck inside the page, with arrows/keys and fullscreen. Slides hold any blocks. */
+  B.slides = function (b, ctx) {
+    var slides = b.slides, i = 0, el = h('section', { class: 'vk-card vk-slides', tabindex: '0' });
+    var stage = h('div', { class: 'vk-stage' }), count = h('span', { class: 'vk-muted' }), dots = h('div', { class: 'vk-dots' });
+    var prev = btn('←', function () { go(i - 1); }), next = btn('→', function () { go(i + 1); }, 'primary');
+    var full = btn('⛶', function () {
+      if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen();
+    });
+    full.title = 'Fullscreen';
+    el.appendChild(h('div', { class: 'vk-slides-top' }, h('span', { class: 'vk-pill' }, b.label || 'Slides'), b.title && h('b', {}, b.title), h('span', { style: 'flex:1' }), count, full));
+    el.appendChild(stage);
+    el.appendChild(h('div', { class: 'vk-slides-nav' }, prev, dots, next));
+    function go(n) { if (n >= 0 && n < slides.length) { i = n; draw(); } }
+    function draw() {
+      var s = slides[i];
+      stage.textContent = '';
+      stage.className = 'vk-stage ' + (s.layout || '');
+      if (s.title) stage.appendChild(h('h2', {}, s.title));
+      if (s.body) stage.appendChild(h('div', { class: 'vk-text vk-lead', html: md(s.body) }));
+      if (s.blocks) stage.appendChild(h('div', { class: 'vk-slide-body' }, s.blocks.map(function (x, k) { return renderBlock(x, k, ctx.id + '-' + i + '-'); })));
+      count.textContent = (i + 1) + ' / ' + slides.length;
+      dots.textContent = '';
+      slides.forEach(function (_, k) { dots.appendChild(h('button', { class: 'vk-dot' + (k === i ? ' on' : ''), 'aria-label': 'Slide ' + (k + 1), onclick: function () { go(k); } })); });
+      prev.disabled = i === 0; next.disabled = i === slides.length - 1;
+    }
+    el.addEventListener('keydown', function (e) {
+      if (e.target.closest('input,textarea,select')) return;
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') { go(i + 1); e.preventDefault(); }
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') { go(i - 1); e.preventDefault(); }
+    });
     draw();
     return el;
   };

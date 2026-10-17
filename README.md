@@ -32,7 +32,7 @@ Node is only needed for this one command. Using the kit needs none.
   {"type":"lineChart","title":"£1,000 at 5%","series":[{"name":"Compound","points":[[0,1000],[5,1276],[10,1629]]}],"xLabel":"years"}
 ]</script>
 ```
-Your AI reads [`KIT.md`](skills/visual-kit/lite/KIT.md) (about 4 KB: every block, theming, custom blocks) and writes pages like this one. Big topics become a `lesson.js` plus small section files, opened through `viewer.html`. Answers stay in the browser; "Copy my answers" lets you paste them back to the AI for feedback.
+Your AI reads [`KIT.md`](skills/visual-kit/lite/KIT.md) (one short file: what every block looks like and suits, theming, custom blocks) and writes pages like this one. Big topics become a `lesson.js` plus small section files, opened through `viewer.html`. Answers stay in the browser; "Copy my answers" lets you paste them back to the AI for feedback.
 
 ## Repo layout
 

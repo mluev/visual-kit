@@ -11,6 +11,10 @@
 <script class="vk" type="application/json">
 [
   { "type": "explainer", "title": "Slices", "body": "A slice is a **header** that points into an array.\n\n- `len` is how many you can read\n- `cap` is how far it can grow", "code": "s := a[1:3]", "points": ["Slicing never copies.", "Always reassign `s = append(s, x)`."] },
+  { "type": "flow", "title": "Flow", "caption": "Arrows are automatic.", "steps": [{ "title": "Text", "show": "The cat", "body": "Input." }, { "title": "Model", "body": "Predicts." }, { "title": "Token", "body": "Output." }], "loop": "Repeat." },
+  { "type": "steps", "title": "Steps", "steps": [{ "title": "One", "body": "First." }, { "title": "Two", "show": "x = 2", "body": "Second." }] },
+  { "type": "layers", "title": "Layers", "items": [{ "title": "Top", "body": "Output." }, { "title": "Bottom", "body": "Input." }] },
+  { "type": "cards", "title": "Cards", "items": [{ "title": "A", "tag": "Type", "body": "First." }, { "title": "B", "body": "Second." }] },
   { "type": "callout", "kind": "warning", "body": "Shared backing arrays surprise people." },
   { "type": "stats", "title": "At a glance", "items": [{ "label": "Blocks", "value": 18, "trend": "up" }, { "label": "Size", "value": "40 KB", "note": "js + css" }] },
   { "type": "timeline", "title": "1914", "events": [{ "date": "June 1914", "title": "Assassination", "body": "Sarajevo." }, { "date": "Aug 1914", "title": "War begins" }] },

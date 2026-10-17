@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Why the sky is blue</title>
+<link rel="stylesheet" href="../visual-kit.css">
+<script src="../visual-kit.js"></script>
+</head>
+<body>
+<script class="vk" type="application/json">
+[
+  { "type": "callout", "kind": "key", "title": "The short answer",
+    "body": "Air scatters short wavelengths of sunlight (blue) far more than long ones (red). The scattered blue light reaches your eyes from every part of the sky, so the whole sky looks blue." },
+
+  { "type": "flow", "title": "From sunlight to a blue sky", "highlight": 2,
+    "steps": [
+      { "title": "Sunlight", "body": "Looks white, but is a mix of every colour, each with its own wavelength." },
+      { "title": "Air molecules", "body": "Nitrogen and oxygen are much smaller than a wavelength of light, which is what makes the scattering work." },
+      { "title": "Scattering", "body": "Short wavelengths are knocked sideways far more strongly than long ones." },
+      { "title": "Your eyes", "body": "Scattered blue arrives from every direction, not just from the Sun." } ],
+    "caption": "The key step is the third one: scattering is strongly colour-dependent. Everything else just sets it up." },
+
+  { "type": "barChart", "title": "How strongly each colour is scattered, compared with red", "unit": "×", "highlight": 2,
+    "data": [{ "label": "Red (700 nm)", "value": 1 }, { "label": "Green (550 nm)", "value": 2.6 }, { "label": "Blue (450 nm)", "value": 5.9 }, { "label": "Violet (400 nm)", "value": 9.4 }],
+    "caption": "Scattering strength follows 1 ÷ wavelength⁴ (Rayleigh scattering), and these values are calculated from that rule. Halving the wavelength makes scattering sixteen times stronger." },
+
+  { "type": "cards", "title": "But violet scatters even more. Why isn’t the sky violet?",
+    "items": [
+      { "tag": "Reason 1", "title": "Less violet to start with", "body": "The Sun gives out less violet light than blue." },
+      { "tag": "Reason 2", "title": "Some is absorbed", "body": "The upper atmosphere absorbs part of the violet and ultraviolet before it reaches the ground." },
+      { "tag": "Reason 3", "title": "Our eyes", "body": "Human eyes are far less sensitive to violet than to blue, so the mix we perceive looks blue." } ] },
+
+  { "type": "steps", "title": "Why sunsets are red and orange",
+    "steps": [
+      { "title": "The Sun is low", "body": "Its light now crosses much more air to reach you than at midday.", "show": "short path at noon → long path at sunset" },
+      { "title": "Blue is scattered out of the beam", "body": "Over that long path, most of the blue and green is knocked away from the line between you and the Sun." },
+      { "title": "Red and orange are what is left", "body": "The light that still travels straight to your eyes is the long-wavelength end. Dust and haze can deepen the colour." } ],
+    "caption": "It is the same scattering as at midday. A longer path simply removes more of the blue." },
+
+  { "type": "compare", "title": "Midday and sunset side by side", "columns": ["Midday", "Sunset"], "rows": [
+      { "label": "Sun’s position", "values": ["High overhead", "Close to the horizon"] },
+      { "label": "Path through air", "values": ["Short", "Long"] },
+      { "label": "Direct sunlight", "values": ["Nearly white", "Orange to red"] },
+      { "label": "Sky", "values": ["Blue everywhere", "Red and orange near the Sun, blue fading overhead"] } ] },
+
+  { "type": "compare", "title": "Common mix-ups", "columns": ["Myth", "What actually happens"], "rows": [
+      { "label": "Reflection", "values": ["The sky is blue because it reflects the sea", "The sea is blue partly because it reflects the sky, and water also absorbs red light"] },
+      { "label": "Colours", "values": ["Only blue light is scattered", "Every colour is scattered; shorter wavelengths much more than longer ones"] } ] },
+
+  { "type": "callout", "kind": "tip", "title": "Other skies",
+    "body": "Mars has a butterscotch daytime sky and bluish sunsets: its thin air is full of fine dust that scatters light differently from our nitrogen and oxygen." }
+]
+</script>
+</body>
+</html>
