@@ -38,7 +38,7 @@
 .vk, .vk * { box-sizing: border-box; }
 .vk { font: 16px/1.55 var(--vk-font); color: var(--vk-ink); max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
 .vk-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; max-width: 820px; margin: 0 auto; }
-.vk-grid .vk-grid { max-width: none; }
+.vk-grid .vk-grid { max-width: none; margin: 0; }
 .vk-grid > .vk-full { grid-column: 1 / -1; }
 
 /* card */
@@ -176,3 +176,37 @@
 .vk-layer { display: grid; grid-template-columns: minmax(110px, 30%) 1fr; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 10px; background: color-mix(in oklab, var(--vk-accent) calc(6% + var(--i) * 7%), var(--vk-surface)); border: 1px solid var(--vk-line); }
 .vk-layer span { color: var(--vk-ink-2); font-size: 14.5px; }
 @media (max-width: 560px) { .vk-layer { grid-template-columns: 1fr; gap: 2px; } }
+
+/* checklist */
+.vk-check { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-top: 1px solid var(--vk-line); cursor: pointer; }
+.vk-check input { margin-top: 5px; width: 17px; height: 17px; accent-color: var(--vk-accent); }
+.vk-check small { display: block; }
+.vk-check.done > span > span { text-decoration: line-through; color: var(--vk-ink-3); }
+
+/* slides */
+.vk-slides { padding: 0; overflow: hidden; }
+.vk-slides:focus-visible { outline: 2px solid var(--vk-accent); }
+.vk-slides-top, .vk-slides-nav { display: flex; align-items: center; gap: 10px; padding: 12px 16px; }
+.vk-slides-top { border-bottom: 1px solid var(--vk-line); }
+.vk-slides-nav { border-top: 1px solid var(--vk-line); justify-content: space-between; }
+.vk-stage { min-height: 360px; padding: 28px 28px 20px; }
+.vk-stage > h2 { margin: 0 0 14px; font-size: 28px; line-height: 1.15; letter-spacing: -.02em; }
+.vk-lead p { font-size: 19px; line-height: 1.5; }
+.vk-slide-body { display: grid; gap: 14px; }
+.vk-stage.columns .vk-slide-body { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); align-items: start; }
+.vk-stage.title { display: grid; align-content: center; text-align: center; min-height: 420px; }
+.vk-stage.title > h2 { font-size: 40px; }
+.vk-slides .vk-card:not(.vk-callout) { border: 0; background: none; padding: 4px 0; }
+.vk-slides .vk-card h2 { font-size: 18px; margin-top: 0; }
+.vk-dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.vk-dot { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: var(--vk-line); cursor: pointer; }
+.vk-dot.on { background: var(--vk-accent); }
+.vk-slides:fullscreen { overflow: auto; background: var(--vk-surface); display: flex; flex-direction: column; border-radius: 0; }
+.vk-slides:fullscreen .vk-stage { flex: 1; padding: 5vh 8vw; font-size: 1.2em; }
+.vk-slides:fullscreen .vk-stage > h2 { font-size: 40px; }
+@media (max-width: 560px) { .vk-stage { padding: 20px 16px; min-height: 280px; } .vk-stage.title > h2 { font-size: 30px; } }
+
+.vk-minis.fixed { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); }
+@media (max-width: 560px) { .vk-minis.fixed { grid-template-columns: minmax(0, 1fr); } }
+.vk a { color: var(--vk-accent); }
+.vk-lesson main .vk-grid { max-width: none; margin: 0; }

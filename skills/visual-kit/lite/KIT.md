@@ -34,7 +34,7 @@ Every block is `{ "type", ...props }`. Optional on any block: `id` (stable key f
 - `explainer` `title, body, code?, points?[]`
 - `flow` `steps:[{title, body?, show?}], highlight?: index, loop?: text` (≤4 steps in a row, more stack; arrows automatic)
 - `steps` `steps:[{title, body?, show?}]` (vertical, numbered; `show` is a monospace example value)
-- `layers` `items:[{title, body}]` (top to bottom) · `cards` `items:[{title, body?, tag?}]`
+- `layers` `items:[{title, body}]` (top to bottom) · `cards` `items:[{title, body?, tag?}], columns?`
 - `callout` `kind?: note|tip|warning|success|key, body`
 - `stats` `items:[{label, value, note?, trend?: up|down|flat}]`
 - `timeline` `events:[{date, title, body?}], collapse?` (bodies shown; `collapse:true` hides them)
@@ -44,6 +44,8 @@ Every block is `{ "type", ...props }`. Optional on any block: `id` (stable key f
 - `lineChart` `series:[{name, points:[[x,y]…], color?}], xLabel?, yMin?, unit?, note?`
 - `code` `code` · `image` `src, alt?, caption?` · `html` `html` (raw HTML) · `reveal` `q, a` (click to show answer)
 - `group` `blocks[], columns?` (blocks side by side)
+- `slides` `slides:[{title?, body?, layout?: title|columns, blocks?[]}]` a deck with arrows, keys and fullscreen; slides hold any blocks
+- `checklist` `items:[string | {text, note?}]` ticks are remembered in the browser (plans, to-dos)
 
 **Ask**: ONLY when the user asks for practice, a quiz, flashcards or a test. Never add these on your own, even as a bonus or an ending. (Graded, saved in the browser; the user can copy answers back to you.)
 - `quiz` `questions:[{q, options[], answer: index | [indexes], explain?, code?}]`, or one question inline. Always write `explain`.
@@ -56,6 +58,9 @@ Every block is `{ "type", ...props }`. Optional on any block: `id` (stable key f
 - `explainBack` `prompt, keyPoints[]` (user writes, then self-ticks; marked for your review)
 
 Charts and stats need real numbers, or numbers labelled "illustrative" in the title when only the shape matters. If a subject has no real quantities, use `timeline`, `compare`, `tree` or a drawn diagram instead.
+
+## Examples
+`examples/index.html` links finished pages of different kinds: an explanation, a lesson with practice (via `viewer.html`), slides, a plan and a cheat sheet. Open the kind closest to the request to see the standard of clarity. The topics are illustrations; don't copy them or their structure.
 
 ## Customise
 - Theme: override CSS variables, e.g. `<style>:root{--vk-accent:#d6457a;--vk-radius:8px}</style>`. Dark mode is automatic; force with `<html data-theme="dark">`. Variables: `--vk-page --vk-surface --vk-subtle --vk-ink --vk-ink-2 --vk-ink-3 --vk-line --vk-ok --vk-bad --vk-accent --vk-radius --vk-font`.
