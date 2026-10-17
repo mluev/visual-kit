@@ -138,6 +138,7 @@
       el = h('section', { class: 'vk-card vk-error' }, '⚠ block ' + i + (b && b.type ? ' (' + b.type + ')' : '') + ': ' + e.message);
     }
     if (b && b.span === 'full') el.classList.add('vk-full');
+    if (b && b.caption && el.classList.contains('vk-card')) el.appendChild(h('div', { class: 'vk-caption', html: inline(b.caption) }));
     return el;
   }
   VK.render = function (target, blocks, opts) {
@@ -181,7 +182,7 @@
   B.timeline = function (b) {
     var el = card(b, '');
     el.appendChild(h('div', { class: 'vk-timeline' }, (b.events || b.items).map(function (e) {
-      return h('details', {}, h('summary', {}, h('small', {}, e.date), e.title), e.body && h('div', { html: inline(e.body) }));
+      return h('details', { open: !b.collapse }, h('summary', {}, h('small', {}, e.date), e.title), e.body && h('div', { html: inline(e.body) }));
     })));
     return el;
   };
@@ -199,7 +200,7 @@
     function node(n, open) {
       if (!n.children || !n.children.length) return h('div', {}, n.label, n.note && h('span', { class: 'vk-muted' }, ' · ' + n.note));
       return h('details', { open: open }, h('summary', {}, n.label, n.note && h('span', { class: 'vk-muted' }, ' · ' + n.note)),
-        n.children.map(function (c) { return node(c, false); }));
+        n.children.map(function (c) { return node(c, !b.collapse); }));
     }
     var el = card(b, '');
     el.appendChild(node(b.root, true));
@@ -255,6 +256,35 @@
         return h('span', {}, h('i', { style: 'background:' + (se.color || colours[i % colours.length]) }), se.name);
       })));
     if (b.note) el.appendChild(h('div', { class: 'vk-muted' }, b.note));
+    return el;
+  };
+  /* flow / steps: numbered boxes joined by arrows, laid out by CSS (no coordinates to get wrong) */
+  function flowEl(b, dir) {
+    var steps = b.steps || b.items, row = dir === 'row' && steps.length <= 4;
+    var el = card(b, ''), wrap = h('div', { class: 'vk-flow ' + (row ? 'row' : 'col'), style: row ? '--n:' + steps.length : '' });
+    steps.forEach(function (st, i) {
+      wrap.appendChild(h('div', { class: 'vk-step' + (b.highlight === i ? ' hl' : '') },
+        h('span', { class: 'vk-num' }, String(i + 1)),
+        h('div', {}, h('h3', {}, st.title), st.show && h('code', { class: 'vk-show' }, st.show), st.body && h('div', { class: 'vk-text', html: md(st.body) }))));
+    });
+    el.appendChild(wrap);
+    if (b.loop) el.appendChild(h('div', { class: 'vk-loop', html: '↻ ' + inline(b.loop) }));
+    return el;
+  }
+  B.flow = function (b) { return flowEl(b, 'row'); };
+  B.steps = function (b) { return flowEl(b, 'col'); };
+  B.cards = function (b) {
+    var el = card(b, '');
+    el.appendChild(h('div', { class: 'vk-minis' }, b.items.map(function (it) {
+      return h('div', { class: 'vk-mini' }, it.tag && h('span', { class: 'vk-pill' }, it.tag), h('h3', {}, it.title), it.body && h('div', { class: 'vk-text', html: md(it.body) }));
+    })));
+    return el;
+  };
+  B.layers = function (b) {
+    var el = card(b, '');
+    el.appendChild(h('div', { class: 'vk-layers' }, b.items.map(function (it, i) {
+      return h('div', { class: 'vk-layer', style: '--i:' + i }, h('b', {}, it.title), h('span', { html: inline(it.body || '') }));
+    })));
     return el;
   };
   B.code = function (b) { var el = card(b, ''); el.appendChild(pre(b.code)); return el; };

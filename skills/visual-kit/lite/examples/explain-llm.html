@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How an LLM works</title>
+<link rel="stylesheet" href="../visual-kit.css">
+<script src="../visual-kit.js"></script>
+</head>
+<body>
+<script class="vk" type="application/json">
+[
+  { "type": "callout", "kind": "key", "title": "The short answer",
+    "body": "A large language model (LLM) is a very large function that reads text and predicts the **next token**. Chatting with it is that one prediction, repeated, with each chosen token added to the text before predicting the next." },
+
+  { "type": "flow", "title": "One prediction, step by step", "highlight": 3, "loop": "The chosen token is appended to the text and the whole loop runs again, until the reply is finished.",
+    "steps": [
+      { "title": "Text", "show": "The cat sat on", "body": "Your prompt, plus everything written so far." },
+      { "title": "Tokens", "show": "The | cat | sat | on", "body": "Text is cut into pieces (words or word fragments), each with an ID number." },
+      { "title": "Vectors", "show": "cat → [0.2, -1.3, …]", "body": "Each token becomes a long list of numbers that captures its meaning." },
+      { "title": "Transformer", "body": "Layers of **attention** and processing mix the vectors so each word is read in context." } ],
+    "caption": "Read left to right: text goes in, numbers flow through the model, and what comes out is a score for every possible next token." },
+
+  { "type": "barChart", "title": "What comes out: a score for every token (illustrative)", "unit": "%", "highlight": 0,
+    "data": [{ "label": "the", "value": 52 }, { "label": "a", "value": 21 }, { "label": "my", "value": 9 }, { "label": "purple", "value": 1 }],
+    "caption": "After “The cat sat on”, the model scores every token. These numbers are made up to show the shape, not taken from a real model. “the” is likely, “purple” is not, but nothing is impossible, so the pick is a weighted dice roll." },
+
+  { "type": "steps", "title": "Attention: how a word looks at the others",
+    "steps": [
+      { "title": "Take a sentence", "show": "The animal didn’t cross the street because it was tired", "body": "What does “it” refer to? You know instantly. The model has to work it out." },
+      { "title": "Every word looks at every other word", "body": "For “it”, the model scores how relevant each earlier word is." },
+      { "title": "The strongest link wins", "show": "it → animal (high) · it → street (low)", "body": "“Animal” scores high because animals get tired and streets don’t. The vector for “it” is updated to carry “animal” with it." } ],
+    "caption": "This is the trick that made modern LLMs possible: meaning comes from relationships between words, not from words alone." },
+
+  { "type": "layers", "title": "What is inside the model (top = output)", "items": [
+      { "title": "Output layer", "body": "Turns the final vector into a score for every token in the vocabulary." },
+      { "title": "Transformer blocks × dozens", "body": "Attention (words look at each other) then a feed-forward step (processing). Stacked many times." },
+      { "title": "Embeddings", "body": "A lookup table: token ID in, vector of numbers out." },
+      { "title": "Tokeniser", "body": "Splits text into tokens. Not learned: a fixed set of rules." } ] },
+
+  { "type": "timeline", "title": "How a model is built", "events": [
+      { "date": "Step 1", "title": "Pre-training", "body": "Predict the next token across a huge amount of text, billions of times. This is where it picks up grammar, facts and patterns." },
+      { "date": "Step 2", "title": "Fine-tuning", "body": "Train on examples of good question and answer pairs, so it follows instructions instead of just continuing text." },
+      { "date": "Step 3", "title": "Feedback", "body": "People rate answers and the model is nudged towards the ones they prefer: more helpful, safer, clearer." },
+      { "date": "Step 4", "title": "Inference", "body": "What happens when you chat. The weights are fixed; the model just predicts, one token at a time." } ],
+    "caption": "Only step 4 happens when you use it. The learning is finished before you type a word." },
+
+  { "type": "compare", "title": "Common misconceptions", "columns": ["It is not…", "It is…"], "rows": [
+      { "label": "Memory", "values": ["A database it looks answers up in", "Knowledge compressed into its weights"] },
+      { "label": "Output", "values": ["A fixed, looked-up reply", "Sampled one token at a time, so it can vary"] },
+      { "label": "Accuracy", "values": ["Guaranteed true", "Plausible; it can state falsehoods confidently"] } ] },
+
+  { "type": "callout", "kind": "tip", "title": "Temperature is the dice setting",
+    "body": "Low temperature: it nearly always picks the top-scoring token (predictable). High temperature: it samples more adventurously (creative, but riskier)." }
+]
+</script>
+</body>
+</html>

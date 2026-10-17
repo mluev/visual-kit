@@ -2,7 +2,7 @@
 
 Visual blocks (charts, timelines, tables, trees, diagrams...) from plain data. No Node, no build. Read only this file; never read `visual-kit.js`.
 
-**Two rules.** (1) Explain visually: lead with a diagram, chart, timeline, comparison or tree, and keep text to short captions; a text-only page is a failed page. (2) Never add exercises (the **Ask** blocks) unless the user asked for practice, a quiz, flashcards or a test. "Explain", "teach me" and "make a lesson" mean explanations only.
+**Two rules.** (1) Explain clearly with visuals and words together: the right block for the idea, with explanation in words. (2) Never add exercises (the **Ask** blocks) unless the user asked for practice, a quiz, flashcards or a test. "Explain", "teach me" and "make a lesson" mean explanations only.
 
 ## Use it
 
@@ -30,16 +30,16 @@ VK.section([ {"type":"timeline","events":[{"date":"1914","title":"War"}]} ]);
 ## Blocks
 Every block is `{ "type", ...props }`. Optional on any block: `id` (stable key for saved answers; auto if omitted), `title`, `label` (pill text), `span:"full"` (whole row). Text props take light markdown: blank line = paragraph, `- ` bullets, `` `code` ``, `**bold**`, `*italic*`, `[link](url)`.
 
-**Show** (the default; pick the block that matches the idea's shape)
-- sequence or history → `timeline` · comparison → `compare` · hierarchy or parts → `tree` · numbers → `barChart` / `lineChart` / `stats` · one takeaway → `callout`
-- mechanism, flow, anatomy or map → draw an inline `<svg>` inside an `html` block (use `var(--vk-accent)`, `var(--vk-ink)`, `var(--vk-line)` so it follows the theme)
-- aim for two or more different visual blocks per answer or lesson section, at most one `explainer`, and open with the visual, not paragraphs
+**Show** (the default). Let the idea's shape pick the block: process → `flow`, walkthrough → `steps`, layers → `layers`, parts or types → `cards`, over time → `timeline`, compared → `compare`, hierarchy → `tree`, numbers → charts or `stats`, takeaway → `callout`. Then explain in words: a `body` on each step or item, a `caption` (universal prop) on a visual to say what to notice. Be concrete, give the why, define jargon. See `examples/explain-llm.html` for the standard. Prefer these layout blocks to hand-drawn SVG, which tends to overlap; `html` with SVG only when nothing else fits.
 - `explainer` `title, body, code?, points?[]`
+- `flow` `steps:[{title, body?, show?}], highlight?: index, loop?: text` (≤4 steps in a row, more stack; arrows automatic)
+- `steps` `steps:[{title, body?, show?}]` (vertical, numbered; `show` is a monospace example value)
+- `layers` `items:[{title, body}]` (top to bottom) · `cards` `items:[{title, body?, tag?}]`
 - `callout` `kind?: note|tip|warning|success|key, body`
 - `stats` `items:[{label, value, note?, trend?: up|down|flat}]`
-- `timeline` `events:[{date, title, body?}]`
+- `timeline` `events:[{date, title, body?}], collapse?` (bodies shown; `collapse:true` hides them)
 - `compare` `columns[], rows:[{label, values[]}], note?`
-- `tree` `root:{label, note?, children?[]}`
+- `tree` `root:{label, note?, children?[]}, collapse?` (fully open by default)
 - `barChart` `data: {label:value} | [{label,value}], unit?, highlight?: index|label|-1, note?`
 - `lineChart` `series:[{name, points:[[x,y]…], color?}], xLabel?, yMin?, unit?, note?`
 - `code` `code` · `image` `src, alt?, caption?` · `html` `html` (raw HTML) · `reveal` `q, a` (click to show answer)
@@ -55,7 +55,7 @@ Every block is `{ "type", ...props }`. Optional on any block: `id` (stable key f
 - `sort` `categories[], items:[{text, cat: index, why?}]`
 - `explainBack` `prompt, keyPoints[]` (user writes, then self-ticks; marked for your review)
 
-Never invent numbers for charts or stats. If a subject has no real quantities, use `timeline`, `compare`, `tree` or a drawn diagram instead.
+Charts and stats need real numbers, or numbers labelled "illustrative" in the title when only the shape matters. If a subject has no real quantities, use `timeline`, `compare`, `tree` or a drawn diagram instead.
 
 ## Customise
 - Theme: override CSS variables, e.g. `<style>:root{--vk-accent:#d6457a;--vk-radius:8px}</style>`. Dark mode is automatic; force with `<html data-theme="dark">`. Variables: `--vk-page --vk-surface --vk-subtle --vk-ink --vk-ink-2 --vk-ink-3 --vk-line --vk-ok --vk-bad --vk-accent --vk-radius --vk-font`.

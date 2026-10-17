@@ -8,10 +8,12 @@
       "expectations": [
         "An .html file links visual-kit.css and visual-kit.js and contains a <script class=\"vk\" type=\"application/json\"> with valid JSON",
         "The block list contains no quiz, flashcards, cloze, shortAnswer, match, order, sort, explainBack or reveal block",
-        "At least two different visual block types are used (e.g. lineChart, barChart, compare, timeline, stats, tree, or an html block with inline svg)",
-        "There is at most one explainer block, and the first block is not an explainer",
         "Any chart numbers follow from the stated rate and years, not arbitrary figures",
-        "visual-kit.js was not read during the task"
+        "visual-kit.js was not read during the task",
+        "The visuals are explained in words: a reader with no background could follow it without another source",
+        "Blocks suit the shape of each idea (e.g. a process shown as a flow or steps, not as a paragraph) and the page is not one repeated pattern",
+        "Examples are concrete, and jargon is defined in plain words when first used",
+        "No hand-drawn inline <svg> where a layout block would do"
       ]
     },
     {
@@ -20,10 +22,13 @@
       "expected_output": "A multi-section lesson (lesson.js, section files, viewer.html) built from visual blocks, with no practice.",
       "expectations": [
         "A lesson.js calling VK.lesson with at least 3 sections exists, and viewer.html is next to it",
-        "Each section uses at least two different visual block types (timeline, compare, tree, stats, callout, a drawn svg diagram), not just explainer or callout blocks",
         "No section contains a quiz, flashcards, cloze, shortAnswer, match, order, sort, explainBack or reveal block",
         "No chart or stats block contains invented numbers",
-        "visual-kit.js was not read during the task"
+        "visual-kit.js was not read during the task",
+        "The visuals are explained in words: a reader with no background could follow it without another source",
+        "Blocks suit the shape of each idea (e.g. a process shown as a flow or steps, not as a paragraph) and the page is not one repeated pattern",
+        "Examples are concrete, and jargon is defined in plain words when first used",
+        "No hand-drawn inline <svg> where a layout block would do"
       ]
     },
     {
