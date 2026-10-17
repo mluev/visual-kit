@@ -8,24 +8,26 @@ description: >
   interactively: "teach me X", "make a lesson on Y", "explain Z with a diagram/chart/quiz",
   "make flashcards", "a visual summary of...", "send me a quick explainer", or when a
   user pastes back "Copy my answers" JSON for feedback. Works in any folder or project.
-  Use the heavier React app (app/) only if the user explicitly wants that.
+  The heavier React app in the repo's app/ folder is only for users who ask for it.
 ---
 
 # visual-kit
 
-Default: the **light kit** in `lite/`. Plain files, no Node, works from `file://`. The
-block list, props and customisation hooks are all in `lite/KIT.md` (about 4 KB). Read
-that one file, and never read `visual-kit.js`, which wastes context.
+The kit is bundled with this skill, in the `lite/` folder next to this SKILL.md. Plain
+files, no Node, works from `file://`. The block list, props and customisation hooks are
+all in `lite/KIT.md` (about 4 KB). Read that one file, and never read `visual-kit.js`,
+which wastes context.
 
 ## 1. Find or install the kit
 
-1. Look for `visual-kit.js` and `KIT.md` in the user's project (current folder, then
-   `visual-kit/` or `vendor/visual-kit/`). If found, use that copy.
-2. Otherwise find the kit source, a folder containing `lite/KIT.md` (this skill's repo, or
-   `~/.claude/skills/visual-kit/lite/` if the user copied `lite/` there). Copy
-   `visual-kit.js` and `visual-kit.css` next to where you'll write the page. Add
-   `viewer.html` only for multi-section lessons. Copying those files is the whole install.
-3. If you can't find the source, ask the user for its path. Don't rewrite the kit from memory.
+1. Look for `visual-kit.js` in the user's project (current folder, then `visual-kit/` or
+   `vendor/visual-kit/`). If found, use that copy.
+2. Otherwise copy `visual-kit.js` and `visual-kit.css` from this skill's `lite/` folder next to
+   where you'll write the page. Add `viewer.html` only for multi-section lessons. Copying
+   those files is the whole install. (`npx visual-kit init` does the same, and
+   `https://cdn.jsdelivr.net/npm/visual-kit@0.1/dist/visual-kit.js` and `.css` work if the
+   user is online and prefers no copies.)
+3. Never rewrite the kit from memory. If `lite/` is missing, tell the user to reinstall the skill.
 
 ## 2. Pick the size
 
@@ -66,8 +68,9 @@ section or message on the weak spot instead of just explaining again.
 
 ## 6. Heavy app (only on request)
 
-`app/` is the original React/Vite version: board files with Zod validation, a dev server that saves
-results to disk and streams AI reviews live. It needs `npm install`. If the user asks for it,
+The repo (github.com/mluev/visual-kit) also has `app/`, the original React/Vite version: board
+files with Zod validation, a dev server that saves results to disk and streams AI reviews live. It
+needs a checkout and `npm install`, and isn't part of this skill. Only if the user has it and asks,
 follow `app/CLAUDE.md` and `app/KIT.md` (generated; never read `app/src/kit/`).
 
 ## Guardrails

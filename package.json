@@ -1,0 +1,23 @@
+{
+  "name": "visual-kit",
+  "version": "0.1.0",
+  "description": "No-install visual blocks for AI answers: cards, charts, quizzes, flashcards and multi-section lessons from plain data. One JS file, one CSS file.",
+  "keywords": ["visual", "lesson", "quiz", "flashcards", "charts", "ai", "claude", "skill", "no-build", "vanilla-js"],
+  "license": "MIT",
+  "author": "mluev (https://github.com/mluev)",
+  "homepage": "https://github.com/mluev/visual-kit#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/mluev/visual-kit.git" },
+  "bugs": { "url": "https://github.com/mluev/visual-kit/issues" },
+  "main": "dist/visual-kit.js",
+  "unpkg": "dist/visual-kit.js",
+  "jsdelivr": "dist/visual-kit.js",
+  "style": "dist/visual-kit.css",
+  "bin": { "visual-kit": "bin/visual-kit.mjs" },
+  "files": ["dist", "bin", "LICENSE", "README.md"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node scripts/build-dist.mjs",
+    "prepack": "node scripts/build-dist.mjs",
+    "test": "node scripts/test-package.mjs"
+  }
+}
