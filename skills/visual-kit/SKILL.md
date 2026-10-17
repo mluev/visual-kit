@@ -3,11 +3,11 @@ name: visual-kit
 description: >
   Explain things visually with visual-kit: a no-install set of files (visual-kit.js,
   visual-kit.css, viewer.html) that turns a block list into cards, charts, timelines,
-  quizzes, flashcards and multi-section lessons, opened by double-clicking an HTML file.
-  Trigger for any request to explain, teach or summarise something visually or
-  interactively: "teach me X", "make a lesson on Y", "explain Z with a diagram/chart/quiz",
-  "make flashcards", "a visual summary of...", "send me a quick explainer", or when a
-  user pastes back "Copy my answers" JSON for feedback. Works in any folder or project.
+  comparison tables, trees, diagrams and multi-section lessons, opened by double-clicking an
+  HTML file. Trigger for any request to explain, teach or summarise something visually or
+  interactively: "explain X", "teach me Y", "make a lesson on Z", "a visual summary of...",
+  "send me a quick explainer", or when a user asks for a quiz or flashcards, or pastes back
+  "Copy my answers" JSON for feedback. Works in any folder or project.
   The heavier React app in the repo's app/ folder is only for users who ask for it.
 ---
 
@@ -17,6 +17,19 @@ The kit is bundled with this skill, in the `lite/` folder next to this SKILL.md.
 files, no Node, works from `file://`. The block list, props and customisation hooks are
 all in `lite/KIT.md` (about 4 KB). Read that one file, and never read `visual-kit.js`,
 which wastes context.
+
+## Two rules that override everything below
+
+1. **Explain visually, not in prose.** A page made only of text blocks is a failed page.
+   Show the idea: a diagram, chart, timeline, comparison, tree or step-by-step, with text only
+   as short captions around it. See section 3.
+2. **Never add exercises the user didn't ask for.** Explaining is the default job. `quiz`,
+   `flashcards`, `cloze`, `shortAnswer`, `match`, `order`, `sort`, `explainBack` and `reveal`
+   appear **only** when the user asks for practice, a quiz, flashcards, a test or similar
+   ("quiz me", "make flashcards", "test me on this", "add practice"). Not for "explain",
+   "teach me", "make a lesson" or "summarise". Don't add them as a bonus, a check-in or an
+   ending, and don't offer them unprompted inside the page. If you think practice would help,
+   you may say so in one line in chat, and let the user decide.
 
 ## 1. Find or install the kit
 
@@ -31,40 +44,68 @@ which wastes context.
 
 ## 2. Pick the size
 
-- **Quick answer or message**: one HTML file with a `<script class="vk" type="application/json">`
-  block list: usually 2–6 blocks (a callout, one chart or timeline, maybe one quiz question).
-  Don't add practice just because the kit has it.
-- **Big topic**: `lesson.js` (outline) plus one small `sections/NN-name.js` per section, opened
-  through `viewer.html`. Write one section per step, and re-read only the outline, not earlier
-  sections. This is what keeps long lessons cheap. Per section, a good shape is: explain
-  (`explainer` plus one visual) → practise (2–3 different ask blocks) → remember (`flashcards`)
-  → check (`quiz`, with `explain` on every question).
-- Anything the blocks don't cover: write your own HTML and CSS around them, add a `html` block, or
-  register a custom block (`VK.blocks.name = (props, ctx) => element`), as described in KIT.md.
+- **Quick answer**: one HTML file with a `<script class="vk" type="application/json">` block
+  list, usually 3–6 blocks, mostly visual.
+- **Big topic or "teach me / lesson"**: `lesson.js` (outline) plus one small
+  `sections/NN-name.js` per section, opened through `viewer.html`. Write one section per step
+  and re-read only the outline, not earlier sections. That keeps long lessons cheap. A section
+  is an explanation made of visual blocks. It is not an explanation followed by exercises.
+- Anything the blocks don't cover: write your own HTML and CSS around them, or register a custom
+  block (`VK.blocks.name = (props, ctx) => element`), as described in KIT.md.
 
-## 3. Choosing blocks
+## 3. Use the visual blocks to their full potential
 
-- Prefer ask blocks where the user *produces* an answer (`shortAnswer`, `cloze`, `order`,
-  `match`, `sort`, `explainBack`) over ones where they only recognise it (`quiz`).
-- Charts and stats need real, checkable numbers. If the subject has none (most language,
-  history and abstract topics), leave them out. Never invent numbers.
+Before writing, ask of each point: *what is the shape of this idea?* Then pick the block:
+
+| The idea is... | Use |
+|---|---|
+| a sequence, history, process over time | `timeline` |
+| two or more things compared | `compare` (table), or `group` with side-by-side cards |
+| parts of a whole, hierarchy, categories, taxonomy | `tree` |
+| numbers across categories | `barChart` |
+| a trend or relationship over a range | `lineChart` |
+| headline facts, key figures | `stats` |
+| one key takeaway, warning or tip | `callout` |
+| a mechanism, flow, anatomy, map, or anything with spatial layout | an `html` block containing an inline `<svg>` diagram you draw (boxes, arrows, labels) |
+| a picture the user supplied or that exists | `image` |
+| an exact snippet, formula or command | `code` |
+
+Rules of thumb:
+- **Lead with the visual.** Open with the diagram, timeline or chart, then one short `explainer`
+  or `callout` to name the idea. Never open with paragraphs.
+- **At least two different visual blocks** in any answer longer than a single callout, and in each
+  lesson section. Mix types: don't use three bar charts, and don't use only `callout`s.
+- **One `explainer` at most per section**, 2–3 short paragraphs or `points`. If a paragraph
+  explains a sequence, make it a `timeline`. If it contrasts things, make it a `compare`. If it
+  lists parts, make it a `tree`. Use `group` to put related visuals side by side.
+- **Draw it** whenever the blocks don't fit the idea: an inline SVG in an `html` block beats a
+  paragraph describing a shape. Keep to the kit's CSS variables (`var(--vk-accent)`, `var(--vk-ink)`,
+  `var(--vk-line)`) so it follows the theme and dark mode.
+- Charts and stats need real, checkable numbers. If the subject has none (most language, history
+  and abstract topics), use `timeline`, `compare`, `tree` or a drawn diagram instead. Never invent numbers.
 - Match the medium: code goes in `code` fields, everything else in plain text. Write in UK English.
 
 ## 4. Check before handing over
 
-There's no build step, so check by eye on the data:
+There's no build step, so check the data by eye:
 - Every block has a known `type` (unknown ones show a red error card in the browser).
-- Quiz `answer` is an index into `options`; `sort` `cat` is an index into `categories`;
-  `order` `items` are in the CORRECT order; JSON has no trailing commas.
+- JSON has no trailing commas. `sort` `cat` is an index into `categories`, `order` `items` are in the
+  CORRECT order, and quiz `answer` is an index into `options`, if the user asked for those.
+- Reread your block list: is there any exercise block the user didn't ask for? Remove it. Is there a
+  stretch of text that has a visual shape? Replace it.
 - Tell the user the file to open (double-click `.html`, or `viewer.html` for lessons). Lessons with
   `.js` sections work from `file://`; `.json` sections need `python3 -m http.server`.
 
-## 5. Review answers
+## 5. When the user does ask for practice
 
-Users click **Copy my answers** and paste JSON back: `{page, results:{<blockId>:{type, attempts:[{score,
-total, items:[{prompt, answer, expected, correct, needsReview?}]}]}}}`. Judge `needsReview` items
-yourself, say specifically what was right or wrong, and if they struggled, write a small follow-up
-section or message on the weak spot instead of just explaining again.
+Then use the ask blocks, well: prefer ones where the user *produces* an answer (`shortAnswer`, `cloze`,
+`order`, `match`, `sort`, `explainBack`) over `quiz`, and always write `explain` on quiz questions. Add
+only what was asked, in the amount asked.
+
+If the user pastes back **Copy my answers** JSON, `{page, results:{<blockId>:{type, attempts:[{score,
+total, items:[{prompt, answer, expected, correct, needsReview?}]}]}}}`, judge `needsReview` items yourself
+and say specifically what was right or wrong. Offer a follow-up on the weak spot in chat, and write it
+only if they say yes.
 
 ## 6. Heavy app (only on request)
 
@@ -75,6 +116,8 @@ follow `app/CLAUDE.md` and `app/KIT.md` (generated; never read `app/src/kit/`).
 
 ## Guardrails
 
+- Never add `quiz`, `flashcards` or any other ask block unless the user asked for practice.
+- Never ship a text-only page.
 - Never read `visual-kit.js` or `app/src/kit/` for block info; KIT.md is the source.
 - Never invent numbers for charts or stats.
 - Never rename a block `id` after the user has answered it: saved answers are keyed by id.
