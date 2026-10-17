@@ -45,11 +45,9 @@ Everything about the blocks is in `lite/KIT.md`. Read that, not `visual-kit.js`.
    block list for a quick answer. For a big topic, a `lesson.js` outline plus one small
    `sections/NN-name.js` per section, opened via `viewer.html`. Write one section at a time so a
    large lesson never fills your context.
-3. **Look at `lite/examples/explain-llm.html` once** to see the standard of clarity and depth. Match
-   the standard, not the topic or the structure.
-4. **Extend freely.** Mix in your own HTML and CSS, theme with the `--vk-*` variables, or register a
+3. **Extend freely.** Mix in your own HTML and CSS, theme with the `--vk-*` variables, or register a
    custom block (`VK.blocks.name = (props, ctx) => element`). KIT.md shows how.
-5. **Check before handing over.** Block types are all known (unknown ones show a red card). JSON is
+4. **Check before handing over.** Block types are all known (unknown ones show a red card). JSON is
    valid. Everything is explained. Nothing was added that the user didn't ask for. Tell the user which
    file to open (`.html`, or `viewer.html` for lessons). Lessons with `.js` sections work from
    `file://`; `.json` sections need `python3 -m http.server`.
