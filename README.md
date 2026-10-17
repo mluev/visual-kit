@@ -1,6 +1,6 @@
 # visual-kit
 
-Turn any AI answer into a clean visual page: cards, charts, timelines, quizzes, flashcards and whole multi-section lessons. Two files, no Node, no build. Works from any folder by double-clicking an HTML file.
+Turn any AI answer into a clean visual page: charts, timelines, comparisons, trees, drawn diagrams and whole multi-section lessons. Quizzes and flashcards are there too, but only when you ask for them. Two files, no Node, no build. Works from any folder by double-clicking an HTML file.
 
 ## Install (pick one)
 
@@ -29,7 +29,7 @@ Node is only needed for this one command. Using the kit needs none.
 ```html
 <script class="vk" type="application/json">[
   {"type":"callout","kind":"key","body":"Interest earns interest."},
-  {"type":"quiz","q":"2 years at 10% on £100?","options":["£120","£121"],"answer":1,"explain":"£110, then £121."}
+  {"type":"lineChart","title":"£1,000 at 5%","series":[{"name":"Compound","points":[[0,1000],[5,1276],[10,1629]]}],"xLabel":"years"}
 ]</script>
 ```
 Your AI reads [`KIT.md`](skills/visual-kit/lite/KIT.md) (about 4 KB: every block, theming, custom blocks) and writes pages like this one. Big topics become a `lesson.js` plus small section files, opened through `viewer.html`. Answers stay in the browser; "Copy my answers" lets you paste them back to the AI for feedback.

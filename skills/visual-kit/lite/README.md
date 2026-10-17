@@ -1,6 +1,6 @@
 # visual-kit
 
-Turn any AI answer into a clean visual page: cards, charts, timelines, quizzes, flashcards, whole multi-section lessons. No Node, no install, no build.
+Turn any AI answer into a clean visual page: charts, timelines, comparisons, trees, drawn diagrams, whole multi-section lessons. Quizzes and flashcards are there too, but only when you ask for them. No Node, no install, no build.
 
 ## Install
 From npm: `npx visual-kit init` (copies everything below into `./visual-kit/`). Or copy these by hand into any folder or project:

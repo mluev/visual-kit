@@ -3,37 +3,47 @@
   "evals": [
     {
       "id": 0,
-      "prompt": "Quick visual explainer of how compound interest works, something I can just open.",
-      "expected_output": "One self-contained HTML file using visual-kit (a script class=vk block list of 2-6 blocks), with visual-kit.js and visual-kit.css copied next to it.",
+      "prompt": "Explain how compound interest works.",
+      "expected_output": "One self-contained HTML page of mostly visual blocks (chart and/or comparison), with no exercise blocks.",
       "expectations": [
-        "An .html file was written that links visual-kit.css, visual-kit.js and contains a <script class=\"vk\" type=\"application/json\"> with valid JSON",
-        "visual-kit.js and visual-kit.css exist next to (or are referenced from) the HTML file",
-        "The page has between 2 and 6 blocks and every block type is listed in KIT.md",
-        "Any chart numbers are derived from the stated rate and years, not arbitrary",
+        "An .html file links visual-kit.css and visual-kit.js and contains a <script class=\"vk\" type=\"application/json\"> with valid JSON",
+        "The block list contains no quiz, flashcards, cloze, shortAnswer, match, order, sort, explainBack or reveal block",
+        "At least two different visual block types are used (e.g. lineChart, barChart, compare, timeline, stats, tree, or an html block with inline svg)",
+        "There is at most one explainer block, and the first block is not an explainer",
+        "Any chart numbers follow from the stated rate and years, not arbitrary figures",
         "visual-kit.js was not read during the task"
       ]
     },
     {
       "id": 1,
-      "prompt": "Teach me the causes of World War 1 as a full lesson with practice and a quiz at the end.",
-      "expected_output": "A lesson.js outline plus several small section files, with viewer.html copied alongside, using explain, practise, flashcards and an explained quiz.",
+      "prompt": "Teach me the causes of World War 1.",
+      "expected_output": "A multi-section lesson (lesson.js, section files, viewer.html) built from visual blocks, with no practice.",
       "expectations": [
         "A lesson.js calling VK.lesson with at least 3 sections exists, and viewer.html is next to it",
-        "Sections are written as separate files (VK.section) or inline blocks, each with a title",
-        "At least one ask block that makes the user produce an answer (shortAnswer, cloze, order, match, sort or explainBack) is present",
-        "Every quiz question has a non-empty explain",
-        "No barChart, lineChart or stats block contains invented numbers",
+        "Each section uses at least two different visual block types (timeline, compare, tree, stats, callout, a drawn svg diagram), not just explainer or callout blocks",
+        "No section contains a quiz, flashcards, cloze, shortAnswer, match, order, sort, explainBack or reveal block",
+        "No chart or stats block contains invented numbers",
         "visual-kit.js was not read during the task"
       ]
     },
     {
       "id": 2,
-      "prompt": "I did your lesson. Here are my answers: {\"page\":\"Go slices\",\"results\":{\"quiz-1\":{\"type\":\"quiz\",\"attempts\":[{\"score\":2,\"total\":3,\"items\":[{\"prompt\":\"len of a[1:3]?\",\"answer\":\"3\",\"expected\":\"2\",\"correct\":false}]}]},\"explain-1\":{\"type\":\"explainBack\",\"attempts\":[{\"items\":[{\"prompt\":\"Explain slices\",\"answer\":\"a view onto an array\",\"expected\":\"A header; shares memory\",\"correct\":false,\"needsReview\":true}]}]}}}",
-      "expected_output": "Specific feedback on the missed quiz question and on the explain-back answer, plus a small follow-up block set on slice length arithmetic.",
+      "prompt": "Explain how a TCP handshake works, and quiz me on it afterwards.",
+      "expected_output": "A visual explanation (a drawn sequence diagram plus supporting blocks), followed by a quiz, because the user explicitly asked for one.",
       "expectations": [
-        "The response explains why len(a[1:3]) is 2 (high minus low), not just that 3 was wrong",
-        "The needsReview explain-back answer is judged (partly right: a view onto an array, but missing the shared memory point)",
-        "A follow-up message or section file on the weak spot is written, using visual-kit blocks",
+        "The explanation includes a drawn diagram (an html block with inline svg) or a timeline of the SYN, SYN-ACK and ACK steps",
+        "A quiz block is present, because the user asked for one",
+        "Every quiz question has a non-empty explain",
+        "No flashcards, cloze, match or other exercise block is present beyond the quiz, because only a quiz was requested"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I did your quiz. Here are my answers: {\"page\":\"TCP\",\"results\":{\"quiz-1\":{\"type\":\"quiz\",\"attempts\":[{\"score\":1,\"total\":2,\"items\":[{\"prompt\":\"Which flag does the server send first?\",\"answer\":\"ACK\",\"expected\":\"SYN-ACK\",\"correct\":false}]}]}}}",
+      "expected_output": "Specific feedback on the missed question, with an offer (not an unprompted page) for a follow-up.",
+      "expectations": [
+        "The response explains why the server's first reply is SYN-ACK, not just that ACK was wrong",
+        "No new exercise page or section is written without the user saying yes; a follow-up is offered in chat instead",
         "Nothing is edited in the pasted results"
       ]
     }
